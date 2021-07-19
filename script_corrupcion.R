@@ -243,10 +243,9 @@ h6_bxp_clean + stat_pvalue_manual(h6_ttest_clean, tip.length = 0) +
 #regresión múltiple ####
 
 m_notcl_total<-lm(irregularidad_relativa_sep ~
+                    idse +
                     nivel_ruralidad +
                     gasto_per_capita_m +
-                    ingreso_per_capita_m +
-                    escolaridad_prom +
                     prop_mujeres_concejo +
                     transparencia_activa +
                     genero_alcaldia,
@@ -254,12 +253,11 @@ m_notcl_total<-lm(irregularidad_relativa_sep ~
 
 m_clean_total <-lm(irregularidad_relativa_sep ~
                      gasto_per_capita_m +
-                     ingreso_per_capita_m +
                      prop_mujeres_concejo +
                      transparencia_activa +
                      nivel_ruralidad +
-                     genero_alcaldia +
-                     escolaridad_prom,
+                     idse +
+                     genero_alcaldia,
                    data = sep2011_clean)
 
 m_clean_corr <-lm(irregularidad_relativa_sep ~
@@ -276,23 +274,3 @@ stargazer(m_notcl_total, m_clean_total, m_clean_corr,
           dep.var.caption = "",
           dep.var.labels = "Irregularidad relativa",
           notes = "Fuente: Elaboración propia")
-
-m_prop_mujeres <-lm(irregularidad_relativa_sep ~
-                      prop_mujeres_concejo +
-                      ingreso_per_capita_m,
-                    data = sep2011_clean)
-
-stargazer(m_prop_mujeres,
-          type = "text",
-          summary = TRUE,
-          dep.var.caption = "",
-          dep.var.labels = "Irregularidad relativa",
-          notes = "Fuente: Elaboración propia")
-
-ggscatter(sep2011_clean,
-          x = "ingreso_per_capita_m",
-          y = "gasto_per_capita_m",
-          add = "reg.line",
-          conf.int = TRUE,
-          cor.coef = TRUE,
-          cor.method = "pearson")
